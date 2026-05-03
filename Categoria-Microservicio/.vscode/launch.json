@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-MicroservicioCategoriaApplication<Microservicio-Categoria>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.categoria.Microservicio_Categoria.MicroservicioCategoriaApplication",
+            "projectName": "Microservicio-Categoria",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

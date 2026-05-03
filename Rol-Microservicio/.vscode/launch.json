@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-MicroservicioRolApplication<Microservicio-Rol>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.rol.Microservicio_Rol.MicroservicioRolApplication",
+            "projectName": "Microservicio-Rol",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
