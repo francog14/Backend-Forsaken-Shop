@@ -1,0 +1,36 @@
+<section class="login-page">
+  <form class="panel login-panel" (ngSubmit)="login()">
+    <p class="eyebrow">Acceso por roles</p>
+    <h1>Iniciar sesion</h1>
+    <p class="lead">Ingresa con una cuenta para cargar la experiencia correspondiente al actor.</p>
+
+    @if (error) {
+      <p class="notice error">{{ error }}</p>
+    }
+
+    <label>
+      Correo
+      <input name="email" type="email" [(ngModel)]="email" required>
+    </label>
+
+    <label>
+      Contrasena
+      <input name="password" type="password" [(ngModel)]="password" required>
+    </label>
+
+    <button class="primary-button" type="submit" [disabled]="cargando">
+      {{ cargando ? 'Ingresando...' : 'Entrar' }}
+    </button>
+
+    <div class="demo-list">
+      <span>Cuentas demo</span>
+      @for (cuenta of cuentasDemo; track cuenta.email) {
+        <button type="button" class="demo-account" (click)="usarCuenta(cuenta.email, cuenta.password)">
+          {{ cuenta.rol }} - {{ cuenta.email }}
+        </button>
+      }
+    </div>
+
+    <a class="text-link" routerLink="/tienda">Entrar como visitante</a>
+  </form>
+</section>

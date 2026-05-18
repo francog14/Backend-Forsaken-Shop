@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { forkJoin } from 'rxjs';
 import { DetalleVenta, Prenda, Usuario, Venta } from '../../models/forsaken.models';
 import { DetalleVentaService } from '../../services/detalle-venta.service';
+import { PedidoService } from '../../services/pedido.service';
 import { PrendaService } from '../../services/prenda.service';
 import { UsuarioService } from '../../services/usuario.service';
 import { VentaService } from '../../services/venta.service';
@@ -24,6 +25,7 @@ export class VentasComponent implements OnInit {
   private readonly detalleService = inject(DetalleVentaService);
   private readonly usuarioService = inject(UsuarioService);
   private readonly prendaService = inject(PrendaService);
+  private readonly pedidoService = inject(PedidoService);
 
   readonly ventas = signal<Venta[]>([]);
   readonly detalles = signal<DetalleVenta[]>([]);
@@ -144,7 +146,7 @@ export class VentasComponent implements OnInit {
         }));
 
         forkJoin(detalles).subscribe({
-          next: () => this.finalizar('Venta registrada con sus detalles.'),
+          next: () => this.crearPedidoParaVenta(venta),
           error: () => {
             this.error.set('La venta se creo, pero fallo el registro de un detalle.');
             this.registrando.set(false);
@@ -176,6 +178,10 @@ export class VentasComponent implements OnInit {
     return this.usuarios().find((usuario) => usuario.id_usuario === id)?.nombre ?? `Usuario ${id}`;
   }
 
+  runUsuario(id: number) {
+    return this.usuarios().find((usuario) => usuario.id_usuario === id)?.run ?? '';
+  }
+
   nombrePrenda(id: number) {
     return this.prendas().find((prenda) => prenda.id_prenda === id)?.nombre_prenda ?? `Prenda ${id}`;
   }
@@ -203,5 +209,22 @@ export class VentasComponent implements OnInit {
     this.registrando.set(false);
     this.limpiar();
     this.cargarDatos();
+  }
+
+  private crearPedidoParaVenta(venta: Venta) {
+    this.pedidoService.crear({
+      id_usuario: venta.id_usuario,
+      id_venta: venta.id_venta,
+      rut_cliente: this.runUsuario(venta.id_usuario),
+      estado: 'PAGADO',
+      fecha_pedido: this.fecha,
+    }).subscribe({
+      next: () => this.finalizar('Venta, detalles y pedido registrados.'),
+      error: () => {
+        this.error.set('La venta se registro, pero no se pudo crear el pedido.');
+        this.registrando.set(false);
+        this.cargarDatos();
+      },
+    });
   }
 }

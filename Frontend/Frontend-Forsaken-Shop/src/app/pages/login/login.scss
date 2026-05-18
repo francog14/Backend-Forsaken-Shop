@@ -1,0 +1,46 @@
+.login-page {
+  display: grid;
+  min-height: calc(100dvh - 72px);
+  padding: 30px 18px;
+  place-items: center;
+}
+
+.login-panel {
+  display: grid;
+  gap: 16px;
+  max-width: 460px;
+  width: 100%;
+}
+
+.login-panel h1 {
+  font-size: 42px;
+}
+
+.demo-list {
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 8px;
+  padding-top: 14px;
+}
+
+.demo-list span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.demo-account {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  font-weight: 700;
+  min-height: 38px;
+  text-align: left;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}

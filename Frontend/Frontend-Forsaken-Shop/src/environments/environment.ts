@@ -7,5 +7,7 @@ export const environment = {
     ventas: '/api/ventas',
     detallesVentas: '/api/detalles-ventas',
     mensajes: '/api/mensajes',
+    auth: '/api/auth',
+    pedidos: '/api/pedidos',
   },
 };

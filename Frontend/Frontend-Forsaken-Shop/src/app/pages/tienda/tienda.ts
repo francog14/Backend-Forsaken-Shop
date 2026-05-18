@@ -2,9 +2,11 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { forkJoin } from 'rxjs';
-import { Categoria, DetalleVenta, Prenda, Usuario, Venta } from '../../models/forsaken.models';
+import { Categoria, DetalleVenta, Pedido, Prenda, Usuario, Venta } from '../../models/forsaken.models';
 import { CategoriaService } from '../../services/categoria.service';
 import { DetalleVentaService } from '../../services/detalle-venta.service';
+import { AuthService } from '../../services/auth.service';
+import { PedidoService } from '../../services/pedido.service';
 import { PrendaService } from '../../services/prenda.service';
 import { UsuarioService } from '../../services/usuario.service';
 import { VentaService } from '../../services/venta.service';
@@ -32,12 +34,15 @@ export class TiendaComponent implements OnInit {
   private readonly usuarioService = inject(UsuarioService);
   private readonly ventaService = inject(VentaService);
   private readonly detalleVentaService = inject(DetalleVentaService);
+  private readonly pedidoService = inject(PedidoService);
+  private readonly authService = inject(AuthService);
 
   readonly prendas = signal<Prenda[]>([]);
   readonly categorias = signal<Categoria[]>([]);
   readonly usuarios = signal<Usuario[]>([]);
   readonly ventas = signal<Venta[]>([]);
   readonly detalles = signal<DetalleVenta[]>([]);
+  readonly pedidos = signal<Pedido[]>([]);
   readonly carrito = signal<CarritoItem[]>([]);
   readonly ultimaVenta = signal<Venta | null>(null);
   readonly comprobante = signal<ComprobanteItem[]>([]);
@@ -68,7 +73,11 @@ export class TiendaComponent implements OnInit {
     this.usuarioService.listar().subscribe({
       next: (usuarios) => {
         this.usuarios.set(usuarios);
-        if (!this.usuarioSeleccionado && usuarios.length) {
+        const emailSesion = this.authService.session()?.email;
+        const usuarioSesion = usuarios.find((usuario) => usuario.email === emailSesion);
+        if (usuarioSesion) {
+          this.usuarioSeleccionado = usuarioSesion.id_usuario;
+        } else if (!this.usuarioSeleccionado && usuarios.length) {
           this.usuarioSeleccionado = usuarios[0].id_usuario;
         }
       },
@@ -83,6 +92,11 @@ export class TiendaComponent implements OnInit {
     this.detalleVentaService.listar().subscribe({
       next: (detalles) => this.detalles.set(detalles),
       error: () => this.error.set('No se pudieron cargar los detalles de compra.'),
+    });
+
+    this.pedidoService.listar().subscribe({
+      next: (pedidos) => this.pedidos.set(pedidos),
+      error: () => this.error.set('No se pudieron cargar los pedidos.'),
     });
   }
 
@@ -165,12 +179,7 @@ export class TiendaComponent implements OnInit {
 
         forkJoin(detalles).subscribe({
           next: () => {
-            this.ultimaVenta.set(venta);
-            this.comprobante.set(comprobante);
-            this.carrito.set([]);
-            this.exito.set('Compra registrada correctamente.');
-            this.comprando.set(false);
-            this.cargarTienda();
+            this.crearPedidoParaVenta(venta, comprobante);
           },
           error: () => {
             this.error.set('La venta se creo, pero fallo al registrar un detalle.');
@@ -201,5 +210,41 @@ export class TiendaComponent implements OnInit {
 
   nombrePrenda(id: number) {
     return this.prendas().find((prenda) => prenda.id_prenda === id)?.nombre_prenda ?? `Prenda ${id}`;
+  }
+
+  pedidoDeVenta(idVenta: number) {
+    return this.pedidos().find((pedido) => pedido.id_venta === idVenta);
+  }
+
+  usuarioCompra() {
+    return this.usuarios().find((usuario) => usuario.id_usuario === Number(this.usuarioSeleccionado));
+  }
+
+  private crearPedidoParaVenta(venta: Venta, comprobante: ComprobanteItem[]) {
+    const usuario = this.usuarioCompra();
+    this.pedidoService.crear({
+      id_usuario: venta.id_usuario,
+      id_venta: venta.id_venta,
+      rut_cliente: usuario?.run ?? '',
+      estado: 'PAGADO',
+      fecha_pedido: new Date().toISOString().slice(0, 10),
+    }).subscribe({
+      next: () => {
+        this.ultimaVenta.set(venta);
+        this.comprobante.set(comprobante);
+        this.carrito.set([]);
+        this.exito.set('Compra y pedido registrados correctamente.');
+        this.comprando.set(false);
+        this.cargarTienda();
+      },
+      error: () => {
+        this.ultimaVenta.set(venta);
+        this.comprobante.set(comprobante);
+        this.carrito.set([]);
+        this.error.set('La compra se registro, pero no se pudo crear el pedido.');
+        this.comprando.set(false);
+        this.cargarTienda();
+      },
+    });
   }
 }

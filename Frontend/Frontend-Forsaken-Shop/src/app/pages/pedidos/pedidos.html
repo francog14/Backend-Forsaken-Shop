@@ -1,0 +1,73 @@
+<section class="page">
+  <div class="page-heading">
+    <div>
+      <p class="eyebrow">Consulta de pedidos</p>
+      <h1>Pedidos</h1>
+      <p class="lead">Busca pedidos por RUT y actualiza su estado operacional.</p>
+    </div>
+    <button class="secondary-button" type="button" (click)="cargarDatos()">Actualizar</button>
+  </div>
+
+  @if (error()) {
+    <p class="notice error">{{ error() }}</p>
+  }
+  @if (exito()) {
+    <p class="notice success">{{ exito() }}</p>
+  }
+
+  <section class="panel search-panel">
+    <label>
+      RUT cliente
+      <input name="rutBusqueda" type="text" placeholder="12345678-9" [(ngModel)]="rutBusqueda">
+    </label>
+    <button class="primary-button" type="button" (click)="buscarPorRut()">Buscar</button>
+    <button class="secondary-button" type="button" (click)="rutBusqueda = ''; cargarDatos()">Limpiar</button>
+  </section>
+
+  <section class="panel lower-grid">
+    <div class="section-title">
+      <h2>Listado de pedidos</h2>
+      <span>{{ pedidos().length }} registros</span>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>RUT</th>
+            <th>Venta</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (pedido of pedidos(); track pedido.id_pedido) {
+            <tr>
+              <td>{{ pedido.id_pedido }}</td>
+              <td>{{ nombreUsuario(pedido.id_usuario) }}</td>
+              <td>{{ pedido.rut_cliente }}</td>
+              <td>
+                <strong>Venta {{ pedido.id_venta }}</strong>
+                <span>{{ totalVenta(pedido.id_venta) | currency:'CLP':'symbol-narrow':'1.0-0' }}</span>
+              </td>
+              <td>{{ pedido.fecha_pedido | date:'yyyy-MM-dd' }}</td>
+              <td>
+                <select [ngModel]="pedido.estado" (ngModelChange)="actualizarEstado(pedido, $event)">
+                  @for (estado of estados; track estado) {
+                    <option [ngValue]="estado">{{ estado }}</option>
+                  }
+                </select>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="empty-state">No hay pedidos registrados.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+</section>

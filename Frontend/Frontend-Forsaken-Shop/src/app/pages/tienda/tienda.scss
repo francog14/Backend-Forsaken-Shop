@@ -137,6 +137,17 @@
   margin-top: 24px;
 }
 
+.status-pill {
+  background: var(--soft);
+  border-radius: 8px;
+  color: var(--accent);
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 900;
+  padding: 6px 8px;
+  text-transform: uppercase;
+}
+
 button:disabled {
   cursor: not-allowed;
   opacity: 0.55;

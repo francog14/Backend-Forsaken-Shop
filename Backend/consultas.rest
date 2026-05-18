@@ -267,6 +267,66 @@ DELETE http://localhost:7079/mensajes/2
 Content-Type: application/json
 
 ###########################################################
+# 8. MICROSERVICIO DE PEDIDO (Puerto 7080)
+###########################################################
+
+### GET - Obtener todos los pedidos
+GET http://localhost:7080/pedidos
+Content-Type: application/json
+
+### GET - Obtener pedido por ID
+GET http://localhost:7080/pedidos/1
+Content-Type: application/json
+
+### GET - Obtener pedidos por RUT
+GET http://localhost:7080/pedidos/rut/12345678-9
+Content-Type: application/json
+
+### POST - Crear nuevo pedido
+POST http://localhost:7080/pedidos
+Content-Type: application/json
+
+{
+  "id_usuario": 1,
+  "id_venta": 1,
+  "rut_cliente": "12345678-9",
+  "estado": "PAGADO",
+  "fecha_pedido": "2026-05-18"
+}
+
+### PUT - Actualizar estado de pedido
+PUT http://localhost:7080/pedidos/1/estado
+Content-Type: application/json
+
+{
+  "estado": "EN_PREPARACION"
+}
+
+###########################################################
+# 9. MICROSERVICIO DE AUTH (Puerto 7081)
+###########################################################
+
+### POST - Login admin demo
+POST http://localhost:7081/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@forsaken.cl",
+  "password": "admin123"
+}
+
+### POST - Registrar usuario auth
+POST http://localhost:7081/auth/registro
+Content-Type: application/json
+
+{
+  "nombre": "Nuevo vendedor",
+  "email": "nuevo.vendedor@forsaken.cl",
+  "password": "vendedor123",
+  "rol": "VENDEDOR"
+}
+
+###########################################################
 # NOTAS IMPORTANTES
 ###########################################################
 # 1. Asegúrate de que todos los microservicios están ejecutándose

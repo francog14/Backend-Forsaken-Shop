@@ -5,3 +5,5 @@ CREATE DATABASE venta_db;
 CREATE DATABASE detalle_venta_db;
 CREATE DATABASE mensajeria_db;
 CREATE DATABASE prenda_db;
+CREATE DATABASE auth_db;
+CREATE DATABASE pedido_db;

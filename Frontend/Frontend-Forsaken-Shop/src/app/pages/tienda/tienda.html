@@ -95,6 +95,7 @@
           <tr>
             <th>Venta</th>
             <th>Fecha</th>
+            <th>Estado</th>
             <th>Prendas</th>
             <th>Total</th>
           </tr>
@@ -104,6 +105,9 @@
             <tr>
               <td>{{ venta.id_venta }}</td>
               <td>{{ venta.fecha | date:'yyyy-MM-dd' }}</td>
+              <td>
+                <span class="status-pill">{{ pedidoDeVenta(venta.id_venta)?.estado ?? 'Sin pedido' }}</span>
+              </td>
               <td>
                 @for (detalle of detallesDeVenta(venta.id_venta); track detalle.id_detalle_venta) {
                   <span>{{ detalle.cantidad }} x {{ nombrePrenda(detalle.id_prenda) }}</span>
@@ -115,7 +119,7 @@
             </tr>
           } @empty {
             <tr>
-              <td colspan="4" class="empty-state">Todavia no hay compras registradas.</td>
+              <td colspan="5" class="empty-state">Todavia no hay compras registradas.</td>
             </tr>
           }
         </tbody>

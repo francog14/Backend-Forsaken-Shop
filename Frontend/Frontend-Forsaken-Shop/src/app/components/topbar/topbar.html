@@ -12,12 +12,13 @@
     }
   </nav>
 
-  <label class="actor-select">
-    <span>Actor</span>
-    <select [ngModel]="actor()" (ngModelChange)="cambiarActor($event)">
-      @for (item of actores; track item.valor) {
-        <option [ngValue]="item.valor">{{ item.etiqueta }}</option>
-      }
-    </select>
-  </label>
+  @if (session()) {
+    <div class="session-box">
+      <span>{{ session()?.rol }}</span>
+      <strong>{{ session()?.nombre }}</strong>
+      <button type="button" (click)="logout()">Salir</button>
+    </div>
+  } @else {
+    <a class="login-link" routerLink="/login">Iniciar sesion</a>
+  }
 </header>

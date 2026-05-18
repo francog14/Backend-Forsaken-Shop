@@ -3,8 +3,10 @@ import { BodegaComponent } from './pages/bodega/bodega';
 import { CatalogoComponent } from './pages/catalogo/catalogo';
 import { CategoriasComponent } from './pages/categorias/categorias';
 import { DashboardComponent } from './pages/dashboard/dashboard';
+import { LoginComponent } from './pages/login/login';
 import { MensajesComponent } from './pages/mensajes/mensajes';
 import { NotFoundComponent } from './pages/not-found/not-found';
+import { PedidosComponent } from './pages/pedidos/pedidos';
 import { TiendaComponent } from './pages/tienda/tienda';
 import { UsuariosComponent } from './pages/usuarios/usuarios';
 import { VentasComponent } from './pages/ventas/ventas';
@@ -12,6 +14,7 @@ import { VendedorComponent } from './pages/vendedor/vendedor';
 
 export const routes: Routes = [
   { path: '', component: TiendaComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'tienda', component: TiendaComponent },
   { path: 'admin', component: DashboardComponent },
   { path: 'vendedor', component: VendedorComponent },
@@ -20,6 +23,7 @@ export const routes: Routes = [
   { path: 'categorias', component: CategoriasComponent },
   { path: 'usuarios', component: UsuariosComponent },
   { path: 'ventas', component: VentasComponent },
+  { path: 'pedidos', component: PedidosComponent },
   { path: 'mensajes', component: MensajesComponent },
   { path: '404', component: NotFoundComponent },
   { path: '**', redirectTo: '404' },

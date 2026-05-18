@@ -49,6 +49,23 @@ export interface Mensaje {
   fecha_envio: string;
 }
 
+export interface Pedido {
+  id_pedido: number;
+  id_usuario: number;
+  id_venta: number;
+  rut_cliente: string;
+  estado: string;
+  fecha_pedido: string;
+}
+
+export interface AuthSession {
+  id_auth: number;
+  nombre: string;
+  email: string;
+  rol: string;
+  token: string;
+}
+
 export type Actor = 'usuario' | 'vendedor' | 'bodeguero' | 'admin';
 
 export type CategoriaForm = Omit<Categoria, 'id_categoria'>;
@@ -58,3 +75,4 @@ export type PrendaForm = Omit<Prenda, 'id_prenda'>;
 export type VentaForm = Omit<Venta, 'id_venta'>;
 export type DetalleVentaForm = Omit<DetalleVenta, 'id_detalle_venta'>;
 export type MensajeForm = Omit<Mensaje, 'id_mensaje'>;
+export type PedidoForm = Omit<Pedido, 'id_pedido'>;

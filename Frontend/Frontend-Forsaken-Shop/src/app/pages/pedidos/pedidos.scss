@@ -1,0 +1,17 @@
+.search-panel {
+  align-items: end;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(240px, 1fr) auto auto;
+  margin-bottom: 24px;
+}
+
+.lower-grid {
+  margin-top: 0;
+}
+
+@media (max-width: 760px) {
+  .search-panel {
+    grid-template-columns: 1fr;
+  }
+}

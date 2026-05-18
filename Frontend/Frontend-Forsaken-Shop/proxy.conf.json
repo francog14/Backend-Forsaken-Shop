@@ -40,5 +40,17 @@
     "secure": false,
     "changeOrigin": true,
     "pathRewrite": { "^/api": "" }
+  },
+  "/api/pedidos": {
+    "target": "http://localhost:7080",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": { "^/api": "" }
+  },
+  "/api/auth": {
+    "target": "http://localhost:7081",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": { "^/api": "" }
   }
 }
