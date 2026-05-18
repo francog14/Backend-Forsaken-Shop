@@ -1,0 +1,23 @@
+<header class="topbar">
+  <a class="brand" [routerLink]="actor() === 'admin' ? '/admin' : actor() === 'vendedor' ? '/vendedor' : actor() === 'bodeguero' ? '/bodega' : '/tienda'">
+    <span class="brand-mark">FS</span>
+    <span>Forsaken Shop</span>
+  </a>
+
+  <nav class="nav-links" aria-label="Principal">
+    @for (link of linksVisibles(); track link.path) {
+      <a [routerLink]="link.path" routerLinkActive="active">
+        {{ link.label }}
+      </a>
+    }
+  </nav>
+
+  <label class="actor-select">
+    <span>Actor</span>
+    <select [ngModel]="actor()" (ngModelChange)="cambiarActor($event)">
+      @for (item of actores; track item.valor) {
+        <option [ngValue]="item.valor">{{ item.etiqueta }}</option>
+      }
+    </select>
+  </label>
+</header>
