@@ -3,8 +3,12 @@ package com.rol.Microservicio_Rol.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,5 +31,20 @@ public class RolController {
     @GetMapping("/{id_rol}")
     public Rol obtenerRolPorId(@PathVariable int id_rol) {
         return rolService.obtenerRolPorId(id_rol);
+    }
+
+    @PostMapping("")
+    public Rol crearRol(@RequestBody Rol rol) {
+        return rolService.crearRol(rol);
+    }
+
+    @PutMapping("")
+    public Rol actualizarRol(@RequestBody Rol rolActualizado) {
+        return rolService.actualizarRol(rolActualizado);
+    }
+
+    @DeleteMapping("/{id_rol}")
+    public String eliminarRol(@PathVariable int id_rol) {
+        return rolService.eliminarRol(id_rol);
     }
 }

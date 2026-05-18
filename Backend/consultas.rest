@@ -1,0 +1,278 @@
+###########################################################
+# BACKEND FORSAKEN SHOP - REST CLIENT QUERIES
+# Extensión: REST Client
+###########################################################
+
+###########################################################
+# 1. MICROSERVICIO DE CATEGORÍA (Puerto 7070)
+###########################################################
+
+### GET - Obtener todas las categorías
+GET http://localhost:7070/categorias
+Content-Type: application/json
+
+### GET - Obtener categoría por ID
+GET http://localhost:7070/categorias/1
+Content-Type: application/json
+
+### POST - Crear nueva categoría
+POST http://localhost:7070/categorias
+Content-Type: application/json
+
+{
+  "nombre_categoria": "Camisetas"
+}
+
+### PUT - Actualizar categoría
+PUT http://localhost:7070/categorias
+Content-Type: application/json
+
+{
+  "id_categoria": 1,
+  "nombre_categoria": "Camisetas Premium"
+}
+
+### DELETE - Eliminar categoría
+DELETE http://localhost:7070/categorias/1
+Content-Type: application/json
+
+###########################################################
+# 2. MICROSERVICIO DE ROL (Puerto 7075)
+###########################################################
+
+### GET - Obtener todos los roles
+GET http://localhost:7075/roles
+Content-Type: application/json
+
+### GET - Obtener rol por ID
+GET http://localhost:7075/roles/1
+Content-Type: application/json
+
+### POST - Crear nuevo rol
+POST http://localhost:7075/roles
+Content-Type: application/json
+
+{
+  "nombre_rol": "Cliente"
+}
+
+### PUT - Actualizar rol
+PUT http://localhost:7075/roles
+Content-Type: application/json
+
+{
+  "id_rol": 1,
+  "nombre_rol": "Cliente VIP"
+}
+
+### DELETE - Eliminar rol
+DELETE http://localhost:7075/roles/1
+Content-Type: application/json
+
+###########################################################
+# 3. MICROSERVICIO DE USUARIO (Puerto 7076)
+###########################################################
+
+### GET - Obtener todos los usuarios
+GET http://localhost:7076/usuarios
+Content-Type: application/json
+
+### GET - Obtener usuario por ID
+GET http://localhost:7076/usuarios/1
+Content-Type: application/json
+
+### POST - Crear nuevo usuario
+POST http://localhost:7076/usuarios
+Content-Type: application/json
+
+{
+  "run": "12345678-9",
+  "nombre": "Juan Pérez",
+  "email": "juan@example.com",
+  "id_rol": 1
+}
+
+### PUT - Actualizar usuario
+PUT http://localhost:7076/usuarios
+Content-Type: application/json
+
+{
+  "id_usuario": 1,
+  "run": "12345678-9",
+  "nombre": "Juan Carlos Pérez",
+  "email": "juan.carlos@example.com",
+  "id_rol": 1
+}
+
+### DELETE - Eliminar usuario
+DELETE http://localhost:7076/usuarios/1
+Content-Type: application/json
+
+###########################################################
+# 4. MICROSERVICIO DE PRENDA (Puerto 7580)
+###########################################################
+
+### GET - Obtener todas las prendas
+GET http://localhost:7580/prendas
+Content-Type: application/json
+
+### GET - Obtener prenda por ID
+GET http://localhost:7580/prendas/1
+Content-Type: application/json
+
+### POST - Crear nueva prenda
+POST http://localhost:7580/prendas
+Content-Type: application/json
+
+{
+  "nombre_prenda": "Camiseta Básica",
+  "precio_prenda": 15000,
+  "talla": "M",
+  "color": "Negro",
+  "stock_prenda": 50,
+  "id_categoria": 1
+}
+
+### PUT - Actualizar prenda
+PUT http://localhost:7580/prendas
+Content-Type: application/json
+
+{
+  "id_prenda": 1,
+  "nombre_prenda": "Camiseta Premium",
+  "precio_prenda": 25000,
+  "talla": "M",
+  "color": "Negro",
+  "stock_prenda": 30,
+  "id_categoria": 1
+}
+
+### DELETE - Eliminar prenda
+DELETE http://localhost:7580/prendas/1
+Content-Type: application/json
+
+###########################################################
+# 5. MICROSERVICIO DE VENTA (Puerto 7077)
+###########################################################
+
+### GET - Obtener todas las ventas
+GET http://localhost:7077/ventas
+Content-Type: application/json
+
+### GET - Obtener venta por ID
+GET http://localhost:7077/ventas/1
+Content-Type: application/json
+
+### POST - Crear nueva venta
+POST http://localhost:7077/ventas
+Content-Type: application/json
+
+{
+  "fecha": "2026-05-18",
+  "total": 75000.00,
+  "id_usuario": 1
+}
+
+### PUT - Actualizar venta
+PUT http://localhost:7077/ventas
+Content-Type: application/json
+
+{
+  "id_venta": 1,
+  "fecha": "2026-05-18",
+  "total": 90000.00,
+  "id_usuario": 1
+}
+
+### DELETE - Eliminar venta
+DELETE http://localhost:7077/ventas/2
+Content-Type: application/json
+
+###########################################################
+# 6. MICROSERVICIO DE DETALLES-VENTAS (Puerto 7078)
+###########################################################
+
+### GET - Obtener todos los detalles de ventas
+GET http://localhost:7078/detalles-ventas
+Content-Type: application/json
+
+### GET - Obtener detalle de venta por ID
+GET http://localhost:7078/detalles-ventas/1
+Content-Type: application/json
+
+### POST - Crear nuevo detalle de venta
+POST http://localhost:7078/detalles-ventas
+Content-Type: application/json
+
+{
+  "id_venta": 1,
+  "id_prenda": 1,
+  "cantidad": 3,
+  "precio_unitario": 25000.00
+}
+
+### PUT - Actualizar detalle de venta
+PUT http://localhost:7078/detalles-ventas
+Content-Type: application/json
+
+{
+  "id_detalle_venta": 1,
+  "id_venta": 1,
+  "id_prenda": 1,
+  "cantidad": 5,
+  "precio_unitario": 25000.00
+}
+
+### DELETE - Eliminar detalle de venta
+DELETE http://localhost:7078/detalles-ventas/2
+Content-Type: application/json
+
+###########################################################
+# 7. MICROSERVICIO DE MENSAJERÍA (Puerto 7079)
+###########################################################
+
+### GET - Obtener todos los mensajes
+GET http://localhost:7079/mensajes
+Content-Type: application/json
+
+### GET - Obtener mensaje por ID
+GET http://localhost:7079/mensajes/1
+Content-Type: application/json
+
+### POST - Crear nuevo mensaje
+POST http://localhost:7079/mensajes
+Content-Type: application/json
+
+{
+  "id_usuario": 1,
+  "asunto": "Consulta sobre mi pedido",
+  "contenido": "Hola, quisiera saber el estado de mi pedido realizado hace 3 días.",
+  "fecha_envio": "2026-05-18"
+}
+
+### PUT - Actualizar mensaje
+PUT http://localhost:7079/mensajes
+Content-Type: application/json
+
+{
+  "id_mensaje": 1,
+  "id_usuario": 1,
+  "asunto": "Consulta sobre mi pedido - URGENTE",
+  "contenido": "Hola, quisiera saber de manera urgente el estado de mi pedido realizado hace 3 días.",
+  "fecha_envio": "2026-05-18"
+}
+
+### DELETE - Eliminar mensaje
+DELETE http://localhost:7079/mensajes/2
+Content-Type: application/json
+
+###########################################################
+# NOTAS IMPORTANTES
+###########################################################
+# 1. Asegúrate de que todos los microservicios están ejecutándose
+# 2. Los puertos deben coincidir con los configurados en application.properties
+# 3. Usa Ctrl+Alt+R (o Cmd+Alt+R en Mac) para ejecutar una consulta
+# 4. Usa Ctrl+Alt+H (o Cmd+Alt+H en Mac) para ver el historial de consultas
+# 5. Para comentar una consulta, agrégale ### antes
+# 6. Las fechas deben estar en formato ISO (YYYY-MM-DD)
+###########################################################

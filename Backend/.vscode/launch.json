@@ -1,0 +1,74 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-MicroservicioUsuarioApplication<Microservicio-Usuario>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.usuario.Microservicio_Usuario.MicroservicioUsuarioApplication",
+            "projectName": "Microservicio-Usuario",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MicroservicioRolApplication<Microservicio-Rol>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.rol.Microservicio_Rol.MicroservicioRolApplication",
+            "projectName": "Microservicio-Rol",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MicroservicioCategoriaApplication<Microservicio-Categoria>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.categoria.Microservicio_Categoria.MicroservicioCategoriaApplication",
+            "projectName": "Microservicio-Categoria",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MicroservicioDetalleVentaApplication<Microservicio-Detalle-Venta>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.detalle_venta.Microservicio_Detalle_Venta.MicroservicioDetalleVentaApplication",
+            "projectName": "Microservicio-Detalle-Venta",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MicroservicioMensajeriaApplication<Microservicio-Mensajeria>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.mensajeria.Microservicio_Mensajeria.MicroservicioMensajeriaApplication",
+            "projectName": "Microservicio-Mensajeria",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MicroservicioPrendaApplication<Microservicio-Prenda>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.prenda.Microservicio_Prenda.MicroservicioPrendaApplication",
+            "projectName": "Microservicio-Prenda",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MicroservicioVentaApplication<Microservicio-Venta>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.venta.Microservicio_Venta.MicroservicioVentaApplication",
+            "projectName": "Microservicio-Venta",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

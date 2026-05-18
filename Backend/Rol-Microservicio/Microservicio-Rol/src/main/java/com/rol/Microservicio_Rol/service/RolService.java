@@ -29,5 +29,27 @@ public class RolService {
         return rol;
     }
 
+    public Rol crearRol(Rol rol) {
+        return rolRepository.save(rol);
+    }
+
+    public Rol actualizarRol(Rol rolActualizado) {
+        Rol rolExistente = rolRepository.findById(rolActualizado.getId_rol()).orElse(null);
+        if (rolExistente == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Rol no encontrado.");
+        }
+        
+        rolExistente.setNombre_rol(rolActualizado.getNombre_rol());
+        return rolRepository.save(rolExistente);
+    }
+
+    public String eliminarRol(int id) {
+        Rol rolExistente = rolRepository.findById(id).orElse(null);
+        if (rolExistente == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Rol no encontrado.");
+        }
+        rolRepository.deleteById(id);
+        return "Rol eliminado exitosamente.";
+    }
 
 }
