@@ -1,0 +1,125 @@
+<section class="shop-page">
+  <div class="shop-hero">
+    <div>
+      <p class="eyebrow">Usuario</p>
+      <h1>Compra prendas de Forsaken Shop</h1>
+      <p class="lead">Explora el catalogo disponible, arma tu carrito y registra la compra en el backend.</p>
+    </div>
+  </div>
+
+  @if (error()) {
+    <p class="notice error">{{ error() }}</p>
+  }
+  @if (exito()) {
+    <p class="notice success">{{ exito() }}</p>
+  }
+
+  <div class="shop-layout">
+    <section class="product-grid">
+      @for (prenda of prendas(); track prenda.id_prenda) {
+        <article class="product-card">
+          <div class="product-visual">
+            <span>{{ prenda.talla }}</span>
+          </div>
+          <div class="product-body">
+            <span class="category">{{ nombreCategoria(prenda.id_categoria) }}</span>
+            <h2>{{ prenda.nombre_prenda }}</h2>
+            <p>{{ prenda.color }} &middot; Stock {{ prenda.stock_prenda }}</p>
+            <div class="product-footer">
+              <strong>{{ prenda.precio_prenda | currency:'CLP':'symbol-narrow':'1.0-0' }}</strong>
+              <button class="primary-button" type="button" (click)="agregar(prenda)" [disabled]="prenda.stock_prenda <= 0">
+                Agregar
+              </button>
+            </div>
+          </div>
+        </article>
+      } @empty {
+        <section class="panel">
+          <p class="empty-state">No hay prendas disponibles.</p>
+        </section>
+      }
+    </section>
+
+    <aside class="panel cart-panel">
+      <div class="section-title">
+        <h2>Carrito</h2>
+        <span>{{ carrito().length }} items</span>
+      </div>
+
+      <div class="cart-list">
+        @for (item of carrito(); track item.prenda.id_prenda) {
+          <article>
+            <div>
+              <strong>{{ item.prenda.nombre_prenda }}</strong>
+              <span>{{ item.prenda.precio_prenda | currency:'CLP':'symbol-narrow':'1.0-0' }}</span>
+            </div>
+            <input type="number" min="1" [max]="item.prenda.stock_prenda" [ngModel]="item.cantidad" (ngModelChange)="cambiarCantidad(item.prenda.id_prenda, $event)">
+            <button type="button" class="remove-button" (click)="quitar(item.prenda.id_prenda)">Quitar</button>
+          </article>
+        } @empty {
+          <p class="empty-state">Tu carrito esta vacio.</p>
+        }
+      </div>
+
+      <div class="cart-total">
+        <span>Total</span>
+        <strong>{{ total() | currency:'CLP':'symbol-narrow':'1.0-0' }}</strong>
+      </div>
+
+      <button class="primary-button checkout-button" type="button" (click)="comprar()" [disabled]="comprando()">
+        {{ comprando() ? 'Registrando...' : 'Comprar' }}
+      </button>
+
+      @if (ultimaVenta()) {
+        <div class="receipt-box">
+          <span>Ultima compra</span>
+          <strong>Venta {{ ultimaVenta()?.id_venta }}</strong>
+          <p>{{ ultimaVenta()?.total | currency:'CLP':'symbol-narrow':'1.0-0' }}</p>
+          @for (item of comprobante(); track item.nombre) {
+            <small>{{ item.cantidad }} x {{ item.nombre }}</small>
+          }
+        </div>
+      }
+    </aside>
+  </div>
+
+  <section class="panel purchase-history">
+    <div class="section-title">
+      <h2>Mis compras</h2>
+      <span>{{ misCompras().length }} registros</span>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Venta</th>
+            <th>Fecha</th>
+            <th>Prendas</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (venta of misCompras(); track venta.id_venta) {
+            <tr>
+              <td>{{ venta.id_venta }}</td>
+              <td>{{ venta.fecha | date:'yyyy-MM-dd' }}</td>
+              <td>
+                @for (detalle of detallesDeVenta(venta.id_venta); track detalle.id_detalle_venta) {
+                  <span>{{ detalle.cantidad }} x {{ nombrePrenda(detalle.id_prenda) }}</span>
+                } @empty {
+                  <span>Sin detalle registrado</span>
+                }
+              </td>
+              <td>{{ venta.total | currency:'CLP':'symbol-narrow':'1.0-0' }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="4" class="empty-state">Todavia no hay compras registradas.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+</section>
