@@ -1,0 +1,170 @@
+<section class="page">
+  <div class="page-heading">
+    <div>
+      <p class="eyebrow">Operacion</p>
+      <h1>Ventas</h1>
+      <p class="lead">Registra una venta completa seleccionando cliente y prendas. El total se calcula automaticamente.</p>
+    </div>
+    <button class="secondary-button" type="button" (click)="cargarDatos()">Actualizar</button>
+  </div>
+
+  @if (error()) {
+    <p class="notice error">{{ error() }}</p>
+  }
+  @if (exito()) {
+    <p class="notice success">{{ exito() }}</p>
+  }
+
+  <section class="panel sale-builder">
+    <div class="section-title">
+      <div>
+        <h2>Nueva venta</h2>
+        <span>Cliente, fecha y productos en un solo flujo</span>
+      </div>
+      <strong>{{ totalVenta() | currency:'CLP':'symbol-narrow':'1.0-0' }}</strong>
+    </div>
+
+    <div class="sale-form">
+      <label>
+        Fecha
+        <input name="fecha" type="date" [(ngModel)]="fecha" required>
+      </label>
+
+      <label>
+        Cliente
+        <select name="idUsuario" [(ngModel)]="idUsuario" required>
+          <option [ngValue]="0">Selecciona un cliente</option>
+          @for (usuario of usuarios(); track usuario.id_usuario) {
+            <option [ngValue]="usuario.id_usuario">{{ usuario.nombre }}</option>
+          }
+        </select>
+      </label>
+
+      <label>
+        Prenda
+        <select name="idPrenda" [(ngModel)]="idPrenda">
+          <option [ngValue]="0">Selecciona una prenda</option>
+          @for (prenda of prendas(); track prenda.id_prenda) {
+            <option [ngValue]="prenda.id_prenda">{{ prenda.nombre_prenda }} - stock {{ prenda.stock_prenda }}</option>
+          }
+        </select>
+      </label>
+
+      <label>
+        Cantidad
+        <input name="cantidad" type="number" min="1" [(ngModel)]="cantidad">
+      </label>
+
+      <button class="secondary-button add-item-button" type="button" (click)="agregarItem()">Agregar prenda</button>
+    </div>
+
+    <div class="sale-items">
+      @for (item of itemsVenta(); track item.prenda.id_prenda) {
+        <article>
+          <div>
+            <strong>{{ item.prenda.nombre_prenda }}</strong>
+            <span>{{ item.prenda.talla }} - {{ item.prenda.color }}</span>
+          </div>
+          <span>{{ item.cantidad }} x {{ item.prenda.precio_prenda | currency:'CLP':'symbol-narrow':'1.0-0' }}</span>
+          <strong>{{ item.cantidad * item.prenda.precio_prenda | currency:'CLP':'symbol-narrow':'1.0-0' }}</strong>
+          <button type="button" class="remove-button" (click)="quitarItem(item.prenda.id_prenda)">Quitar</button>
+        </article>
+      } @empty {
+        <p class="empty-state">Agrega prendas para comenzar la venta.</p>
+      }
+    </div>
+
+    <div class="sale-actions">
+      <button class="primary-button" type="button" (click)="registrarVenta()" [disabled]="registrando()">
+        {{ registrando() ? 'Registrando...' : 'Registrar venta' }}
+      </button>
+      <button class="secondary-button" type="button" (click)="limpiar()">Limpiar</button>
+    </div>
+  </section>
+
+  <section class="panel lower-grid">
+    <div class="section-title">
+      <h2>Ventas registradas</h2>
+      <span>{{ ventas().length }} registros</span>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Fecha</th>
+            <th>Cliente</th>
+            <th>Detalle</th>
+            <th>Total</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of ventas(); track item.id_venta) {
+            <tr>
+              <td>{{ item.id_venta }}</td>
+              <td>{{ item.fecha | date:'yyyy-MM-dd' }}</td>
+              <td>{{ nombreUsuario(item.id_usuario) }}</td>
+              <td>
+                @for (detalle of detallesDeVenta(item.id_venta); track detalle.id_detalle_venta) {
+                  <span>{{ detalle.cantidad }} x {{ nombrePrenda(detalle.id_prenda) }}</span>
+                } @empty {
+                  <span>Sin detalles</span>
+                }
+              </td>
+              <td>{{ (item.total || subtotalVenta(item.id_venta)) | currency:'CLP':'symbol-narrow':'1.0-0' }}</td>
+              <td class="row-actions">
+                <button type="button" class="danger" (click)="eliminarVenta(item.id_venta)">Eliminar</button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="empty-state">No hay ventas registradas.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel lower-grid">
+    <div class="section-title">
+      <h2>Detalles sueltos</h2>
+      <span>{{ detalles().length }} registros</span>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Venta</th>
+            <th>Prenda</th>
+            <th>Cantidad</th>
+            <th>Subtotal</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of detalles(); track item.id_detalle_venta) {
+            <tr>
+              <td>{{ item.id_detalle_venta }}</td>
+              <td>{{ item.id_venta }}</td>
+              <td>{{ nombrePrenda(item.id_prenda) }}</td>
+              <td>{{ item.cantidad }}</td>
+              <td>{{ item.cantidad * item.precio_unitario | currency:'CLP':'symbol-narrow':'1.0-0' }}</td>
+              <td class="row-actions">
+                <button type="button" class="danger" (click)="eliminarDetalle(item.id_detalle_venta)">Eliminar</button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="empty-state">No hay detalles registrados.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+</section>
