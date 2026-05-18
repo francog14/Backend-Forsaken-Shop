@@ -12,7 +12,7 @@
     "pathRewrite": { "^/api": "" }
   },
   "/api/usuarios": {
-    "target": "http://localhost:7076",
+    "target": "http://localhost:7082",
     "secure": false,
     "changeOrigin": true,
     "pathRewrite": { "^/api": "" }

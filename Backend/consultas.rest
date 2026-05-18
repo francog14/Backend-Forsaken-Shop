@@ -70,19 +70,19 @@ DELETE http://localhost:7075/roles/1
 Content-Type: application/json
 
 ###########################################################
-# 3. MICROSERVICIO DE USUARIO (Puerto 7076)
+# 3. MICROSERVICIO DE USUARIO (Puerto 7082)
 ###########################################################
 
 ### GET - Obtener todos los usuarios
-GET http://localhost:7076/usuarios
+GET http://localhost:7082/usuarios
 Content-Type: application/json
 
 ### GET - Obtener usuario por ID
-GET http://localhost:7076/usuarios/1
+GET http://localhost:7082/usuarios/1
 Content-Type: application/json
 
 ### POST - Crear nuevo usuario
-POST http://localhost:7076/usuarios
+POST http://localhost:7082/usuarios
 Content-Type: application/json
 
 {
@@ -93,7 +93,7 @@ Content-Type: application/json
 }
 
 ### PUT - Actualizar usuario
-PUT http://localhost:7076/usuarios
+PUT http://localhost:7082/usuarios
 Content-Type: application/json
 
 {
@@ -105,7 +105,7 @@ Content-Type: application/json
 }
 
 ### DELETE - Eliminar usuario
-DELETE http://localhost:7076/usuarios/1
+DELETE http://localhost:7082/usuarios/1
 Content-Type: application/json
 
 ###########################################################
